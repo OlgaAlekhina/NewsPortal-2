@@ -6,8 +6,6 @@ register = template.Library()
 def censor(text):
 	stop_words = ['хуй', 'ебан', 'ебат', 'хуев', 'пизд', 'бляд'] # и всё в таком духе
 
-	ind = 0
-
 	for stop in stop_words:
 		while stop in text.lower():
 			ind = (text.lower()).index(stop)
