@@ -6,6 +6,9 @@ class Author(models.Model):
     author = models.OneToOneField(User, on_delete=models.CASCADE)
     author_rating = models.FloatField(default=0.0)
 
+    def __str__(self):
+        return f'{self.author}'
+
     def update_rating(self):
         post_rating = self.post_set.all().values('post_rating')
         rating1 = sum(rate['post_rating'] for rate in post_rating) * 3
@@ -25,9 +28,15 @@ class Author(models.Model):
         self.author_rating = rating1 + rating2 + rating3
         self.save()
 
+        def get_absolute_url(self):
+            return f'/news/{self.id}'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=80, unique=True)
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Post(models.Model):
