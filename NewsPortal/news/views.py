@@ -42,7 +42,7 @@ class NewsCreateView(CreateView):
     form_class = PostForm
 
 class NewsUpdateView(UpdateView):
-    template_name = 'post_create_form.html'
+    template_name = 'post_update_form.html'
     form_class = PostForm
 
     def get_object(self, **kwargs):
@@ -53,5 +53,6 @@ class NewsDeleteView(DeleteView):
     template_name = 'post_delete_form.html'
     queryset = Post.objects.all()
     success_url = '/news/'
+
 
 

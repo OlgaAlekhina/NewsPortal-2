@@ -20,18 +20,20 @@
     </thead>
     <tr>
         <td>
-            {{ post_title|censor }}
+            {{ post.post_title|censor }}
         </td>
         <td>
-            {{ post_time|date:'d-M-Y H:i' }}
+            {{ post.post_time|date:'d-M-Y H:i' }}
         </td>
         <td>
-            {{ post_text|truncatechars:50|censor }}
+            {{ post.post_text|truncatechars:50|censor }}
         </td>
     </tr>
 </table>
 
+<p>
 <form method="POST">
     {% csrf_token %}
     <input type="submit" value="Подтвердить"></form>
+</p>
 {% endblock content %}

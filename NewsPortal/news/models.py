@@ -28,9 +28,6 @@ class Author(models.Model):
         self.author_rating = rating1 + rating2 + rating3
         self.save()
 
-        def get_absolute_url(self):
-            return f'/news/{self.id}'
-
 
 class Category(models.Model):
     name = models.CharField(max_length=80, unique=True)
@@ -66,6 +63,9 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.post_title.title()}: {self.post_text[:50]}'
+
+    def get_absolute_url(self):
+        return f'/news/{self.id}'
 
 
 class PostCategory(models.Model):
