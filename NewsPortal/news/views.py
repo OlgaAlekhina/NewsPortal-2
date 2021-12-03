@@ -25,7 +25,7 @@ class NewsSearch(ListView):
     template_name = 'search.html'
     context_object_name = 'news'
     ordering = ['-post_time']
-    paginate_by = 2
+    paginate_by = 10
     queryset = Post.objects.order_by("pk")
 
     def get_filter(self):
