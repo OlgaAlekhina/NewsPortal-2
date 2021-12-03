@@ -25,16 +25,31 @@ class NewsSearch(ListView):
     template_name = 'search.html'
     context_object_name = 'news'
     ordering = ['-post_time']
-    paginate_by = 10
+    paginate_by = 2
+    queryset = Post.objects.order_by("pk")
 
     def get_filter(self):
         return PostFilter(self.request.GET, queryset=super().get_queryset())
+
     def get_queryset(self):
-        return self.get_filter().qs
-    def get_context_data(self, *args, **kwargs):
-        return {
-            **super().get_context_data(*args, **kwargs),
-            "filter": self.get_filter(),}
+        qs = self.get_filter().qs
+        return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        filter = self.get_filter()
+        context['filter'] = filter
+
+        filter_params = ""
+        for f_name in [str(k) for k in filter.filters]:
+            if f_name in filter.data:
+                filter_params += f"&{f_name}={filter.data[f_name]}"
+        context['filter_params'] = filter_params
+
+        context['get_dict'] = {
+            k: value[0] for k, value in dict(self.request.GET.copy()).items() if k != 'page'
+         }
+        return context
 
 
 class NewsCreateView(CreateView):
