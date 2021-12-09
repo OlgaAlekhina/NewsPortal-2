@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from news.views import UserPageView, upgrade_me
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('news/', include('news.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('user_page/', UserPageView.as_view()),
+    path('user_page/upgrade/', upgrade_me, name='upgrade')
 ]

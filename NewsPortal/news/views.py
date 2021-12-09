@@ -1,10 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.core.paginator import Paginator
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from .models import Post, Category
 from .filters import PostFilter
 from .forms import PostForm
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required
 
 
 class NewsList(ListView):
@@ -52,22 +55,40 @@ class NewsSearch(ListView):
         return context
 
 
-class NewsCreateView(CreateView):
+class NewsCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'post_create_form.html'
     form_class = PostForm
+    permission_required = ('news.add_post')
 
-class NewsUpdateView(UpdateView):
+class NewsUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'post_update_form.html'
     form_class = PostForm
+    form_class = PostForm
+    permission_required = ('news.change_post')
 
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
 
-class NewsDeleteView(DeleteView):
+class NewsDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = 'post_delete_form.html'
     queryset = Post.objects.all()
     success_url = '/news/'
+    form_class = PostForm
+    permission_required = ('news.delete_post')
 
+class UserPageView(LoginRequiredMixin, TemplateView):
+    template_name = 'user_page.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
 
+@login_required
+def upgrade_me(request):
+    user = request.user
+    authors_group = Group.objects.get(name='authors')
+    if not request.user.groups.filter(name='authors').exists():
+        authors_group.user_set.add(user)
+    return redirect('/user_page')

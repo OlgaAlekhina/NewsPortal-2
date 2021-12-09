@@ -1,4 +1,4 @@
-{% extends 'flatpages/default.html' %}
+{% extends 'default.html' %}
 
 {% load custom_filters %}
 
@@ -49,6 +49,7 @@ Search
     {% else %}
         <h2>Нет результатов по вашему запросу!</h2>
     {% endif %}
+<p>
     {% if is_paginated %}
 
     {% if page_obj.has_previous %}
@@ -70,4 +71,5 @@ Search
     {% endif %}
 
 {% endif %}
+</p>
 {% endblock content %}

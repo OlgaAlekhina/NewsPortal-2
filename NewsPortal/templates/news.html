@@ -1,4 +1,4 @@
-{% extends 'flatpages/default.html' %}
+{% extends 'default.html' %}
 
 {% load custom_filters %}
  
@@ -44,6 +44,15 @@ News
     {% else %}
         <h2>Новостей нет!</h2>
     {% endif %}
+
+    {% if user.is_authenticated %}
+        <button> <a href="../accounts/logout/">Выйти</a> </button>
+    {% else %}
+        <button> <a href="../accounts/login/">Войти</a> </button>
+    {% endif %}
+
+    <button><a href="{% url 'news_create' %}"><u>Добавить новость</u></a></button>
+
     {% if is_paginated %}
 
     {% if page_obj.has_previous %}
@@ -66,4 +75,4 @@ News
 
 {% endif %}
 
-<a {% endblock content %}
+{% endblock content %}
