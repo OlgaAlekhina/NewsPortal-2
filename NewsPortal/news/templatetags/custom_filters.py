@@ -4,10 +4,11 @@ register = template.Library()
 
 @register.filter(name='censor')
 def censor(text):
-    stop_words = ['хуй', 'Хуй', 'хуе', 'Хуе', 'пизд', 'Пизд', 'бля', 'Бля']  # и всё в таком духе
-    words = text.split()
+	stop_words = ['хуй', 'ебан', 'ебат', 'хуев', 'пизд', 'бляд'] # и всё в таком духе
 
-    for stop_word in stop_words:
-        words = list(map(lambda x: x.replace(stop_word, '...'), words))
+	for stop in stop_words:
+		while stop in text.lower():
+			ind = (text.lower()).index(stop)
+			text = text[0 : ind + 1] + '...' + text[(ind + len(stop)):]
 
-    return ' '.join(words)
+	return text
