@@ -18,10 +18,10 @@ News details
 <button><a href="{% url 'news_delete' post.id %}"><u> Удалить </u></a></button>
 
 {% if user.is_authenticated %}
-    <button> <a href="../accounts/logout/">Выйти</a> </button>
+    <button> <a href="{% url 'account_logout' %}">Выйти</a> </button>
 
 {% else %}
-    <button> <a href="../accounts/login/">Войти</a> </button>
+    <button> <a href="{% url 'account_login' %}">Войти</a> </button>
 {% endif %}
 
 {% endblock content %}
