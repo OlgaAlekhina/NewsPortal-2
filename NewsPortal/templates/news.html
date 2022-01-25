@@ -46,9 +46,9 @@ News
     {% endif %}
 
     {% if user.is_authenticated %}
-        <button> <a href="../accounts/logout/">Выйти</a> </button>
+        <button> <a href="{% url 'account_logout' %}">Выйти</a> </button>
     {% else %}
-        <button> <a href="../accounts/login/">Войти</a> </button>
+        <button> <a href="{% url 'account_login' %}">Войти</a> </button>
     {% endif %}
 
     <button><a href="{% url 'news_create' %}"><u>Добавить новость</u></a></button>
