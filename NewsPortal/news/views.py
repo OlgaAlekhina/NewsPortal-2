@@ -63,7 +63,6 @@ class NewsCreateView(PermissionRequiredMixin, CreateView):
 class NewsUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'post_update_form.html'
     form_class = PostForm
-    form_class = PostForm
     permission_required = ('news.change_post')
 
     def get_object(self, **kwargs):
