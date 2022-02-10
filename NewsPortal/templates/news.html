@@ -44,6 +44,9 @@ News
     {% else %}
         <h2>Новостей нет!</h2>
     {% endif %}
+
+<button><a href="{% url 'news_create' %}"><u>Добавить новость</u></a></button>
+
     {% if is_paginated %}
 
     {% if page_obj.has_previous %}
